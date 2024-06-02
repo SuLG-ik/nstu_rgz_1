@@ -5,4 +5,11 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(rgz1 main.c
         Monitor.c
-        Monitor.h)
+        Monitor.h
+        LinkedList.c
+        LinkedList.h
+        LinkedListItem.c
+        LinkedListItem.h
+        Menu.c
+        Menu.h
+)

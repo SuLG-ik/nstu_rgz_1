@@ -5,13 +5,17 @@
 #include "Monitor.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-void InitMonitor(Monitor *monitor, char *vendor, char *model, int price, int amountLeft) {
+Monitor *InitMonitor(char *vendor, char *model, int price, int amountLeft) {
+    Monitor *monitor = malloc(sizeof(Monitor));
     strncpy(monitor->vendor, strlen(vendor) >= VENDOR_SIZE_MIN ? vendor : VENDOR_DEFAULT, VENDOR_SIZE_MAX);
     strncpy(monitor->model, strlen(model) >= MODEL_SIZE_MIN ? model : MODEL_DEFAULT, MODEL_SIZE_MAX);
     monitor->price = price >= PRICE_MIN ? price : PRICE_DEFAULT;
     monitor->amountLeft = amountLeft >= AMOUNT_LEFT_MIN ? amountLeft : AMOUNT_LEFT_DEFAULT;
     monitor->isInitialized = 1;
+    return monitor;
 }
 
 void PrintMonitor(Monitor monitor) {
@@ -42,5 +46,18 @@ long CalculateHash(Monitor monitor) {
     hash += strlen(monitor.model) * 100;
     hash += monitor.price * monitor.amountLeft * 10000;
     return hash;
+}
+
+void WriteLaptop(int fd, Monitor *monitor) {
+    ssize_t res = write(fd, monitor, sizeof(Monitor));
+    res;
+}
+
+Monitor *ReadMonitor(int fd) {
+    Monitor *monitor = malloc(sizeof(monitor));
+    if (read(fd, monitor, sizeof(Monitor)) == EOF) {
+        return NULL;
+    }
+    return monitor;
 }
 

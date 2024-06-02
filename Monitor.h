@@ -41,7 +41,7 @@ typedef struct Monitor {
  * @param price between 1 to INT_MAX
  * @param amountLeft between 0 to INT_MAX
  */
-void InitMonitor(Monitor *monitor, char vendor[VENDOR_SIZE_MAX], char model[MODEL_SIZE_MAX], int price, int amountLeft);
+Monitor *InitMonitor(char *vendor, char *model, int price, int amountLeft);
 
 /**
  * Print monitor debug info into default output stream.
@@ -72,5 +72,9 @@ long CalculateHash(Monitor monitor);
  * @return 1 if left less than right, 0 if not
  */
 int IsMonitorLess(Monitor monitor1, Monitor monitor2);
+
+void WriteLaptop(int fd, Monitor *monitor);
+
+Monitor *ReadMonitor(int fd);
 
 #endif //RGZ1_MONITOR_H
